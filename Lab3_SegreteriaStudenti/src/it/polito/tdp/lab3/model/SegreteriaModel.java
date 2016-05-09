@@ -1,6 +1,7 @@
 package it.polito.tdp.lab3.model;
 
-import java.util.List;
+import java.util.*;
+import java.util.Map;
 
 import it.polito.tdp.lab3.DB.IscrizioneDAO;
 import it.polito.tdp.lab3.DB.StudenteDAO;
@@ -22,4 +23,11 @@ public class SegreteriaModel {
 		return studentedao.corsiStudente(matricola);
 	}
 	
+	public boolean studenteIscritto (String corso, int matricola){
+		return iscrizionedao.studenteIscritto(corso, matricola);
+	}
+	
+	public Map<Integer,Studente> listaStudenti(){
+		return studentedao.listaStudenti();
+	}
 }

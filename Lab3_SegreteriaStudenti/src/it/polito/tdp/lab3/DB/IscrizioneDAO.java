@@ -40,7 +40,31 @@ public class IscrizioneDAO {
 		else {return studentiIscritti;}
 	}
 	
-	
+	public boolean studenteIscritto (String corso, int matricola){
+		try {
+			Connection conn = DriverManager.getConnection(jdbcURL);
+			
+			Statement st = conn.createStatement();
+			
+			String sql = "select* from corso, iscrizione, studente where corso.nome =\"" + corso + "\" AND iscrizione.matricola=\"" + matricola + "\" AND corso.codins = iscrizione.codins AND iscrizione.matricola=studente.matricola;";
+
+			ResultSet rs = st.executeQuery(sql);
+			
+			if(rs.next()){
+				rs.close();
+				conn.close();
+				return true;
+			}
+			else{
+				rs.close();
+			    conn.close();
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();}
+		return false;
+	}
 	
 	
 	

@@ -1,10 +1,11 @@
 package it.polito.tdp.lab3.controller;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.lab3.DB.StudenteDAO;
 import it.polito.tdp.lab3.model.Corso;
 import it.polito.tdp.lab3.model.SegreteriaModel;
 import it.polito.tdp.lab3.model.Studente;
@@ -18,7 +19,6 @@ import javafx.scene.control.TextField;
 public class SegreteriaStudentiController {
 	
 	SegreteriaModel segreteria = new SegreteriaModel();
-	
 
     @FXML
     private ResourceBundle resources;
@@ -97,7 +97,27 @@ public class SegreteriaStudentiController {
     		}
     	
     	//caso3
-    	
+    	if (cbCorsi.getValue().compareTo("")!=0 && txtMatricola.getText().compareTo("")!=0){
+    		if(!txtMatricola.getText().matches("[0-9]*")){
+        		txtResult.setText("inserisci matricola valida");
+        		return;}
+    		matricola=Integer.parseInt(txtMatricola.getText());
+    		nomeCorso = cbCorsi.getValue();
+    		Map <Integer,Studente> tempMap = new TreeMap <Integer,Studente> ();
+    				tempMap.putAll(segreteria.listaStudenti());
+    				
+    				if(!tempMap.containsKey(matricola)){
+    					txtResult.setText("Studente inesistente!");
+    					return;
+    				}
+    		
+    		if(segreteria.studenteIscritto(nomeCorso, matricola)){
+    			txtResult.setText(tempMap.get(matricola).getNome() + " " + tempMap.get(matricola).getCognome() + " (" + matricola + ") e' iscritto al corso \"" + nomeCorso + "\"");
+    		}
+    		else {
+    			txtResult.setText(tempMap.get(matricola).getNome() + " " + tempMap.get(matricola).getCognome() + " (" + matricola + ") non e' iscritto al corso \"" + nomeCorso + "\"");
+    		}
+    	}
     	
     	
     	
