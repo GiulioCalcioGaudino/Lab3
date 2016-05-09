@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.lab3.model.Corso;
 import it.polito.tdp.lab3.model.SegreteriaModel;
 import it.polito.tdp.lab3.model.Studente;
 import javafx.event.ActionEvent;
@@ -54,9 +55,17 @@ public class SegreteriaStudentiController {
 
     @FXML
     void doCerca(ActionEvent event) {
+    	if (cbCorsi.getValue()==null){
+    		txtResult.setText("seleziona corso o campo vuoto");
+    		return;
+    	}
     	txtResult.clear();
     	String nomeCorso;
+    	int matricola;
     	List <Studente> studentiTemp= new LinkedList <Studente>();
+    	List <Corso> corsiTemp= new LinkedList <Corso>();
+    	
+    	//caso1
     	if (cbCorsi.getValue().compareTo("")!=0 && txtMatricola.getText().compareTo("")==0){
     	nomeCorso = cbCorsi.getValue();
     	if(segreteria.iscrittiCorso(nomeCorso)==null){
@@ -69,6 +78,27 @@ public class SegreteriaStudentiController {
     		txtResult.appendText(stemp.getMatricola() + "  " + stemp.getCognome() + "  " + stemp.getNome() + "  " + stemp.getCDS() + "\n" );
     	}
     	}
+    	
+    	//caso2
+    	if(cbCorsi.getValue().compareTo("")==0 && txtMatricola.getText().compareTo("")!=0){
+    		if(!txtMatricola.getText().matches("[0-9]*")){
+        		txtResult.setText("inserisci matricola valida");
+        		return;}
+    		matricola=Integer.parseInt(txtMatricola.getText());
+    		if(segreteria.corsiStudente(matricola)==null){
+    			txtResult.setText("Studente inesistente o non iscritto ad alcun corso");
+    			return;
+    		}
+    		corsiTemp.addAll(segreteria.corsiStudente(matricola));
+    		for(int i =0; i<corsiTemp.size();i++){
+    			Corso ctemp = corsiTemp.get(i);
+    			txtResult.appendText(ctemp.getCodins() + "  " + ctemp.getCrediti() + "  " + ctemp.getNome() + "  pd:" + ctemp.getPd() + "\n");
+    		}
+    		}
+    	
+    	//caso3
+    	
+    	
     	
     	
     	

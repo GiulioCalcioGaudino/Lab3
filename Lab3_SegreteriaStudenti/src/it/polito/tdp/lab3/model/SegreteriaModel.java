@@ -18,4 +18,8 @@ public class SegreteriaModel {
 		return iscrizionedao.iscrittiCorso(corso);
 	}
 	
+	public List<Corso> corsiStudente (int matricola){
+		return studentedao.corsiStudente(matricola);
+	}
+	
 }
