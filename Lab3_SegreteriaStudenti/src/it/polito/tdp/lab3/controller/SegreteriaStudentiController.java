@@ -1,6 +1,8 @@
 package it.polito.tdp.lab3.controller;
 
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.lab3.model.SegreteriaModel;
@@ -52,7 +54,24 @@ public class SegreteriaStudentiController {
 
     @FXML
     void doCerca(ActionEvent event) {
-
+    	txtResult.clear();
+    	String nomeCorso;
+    	List <Studente> studentiTemp= new LinkedList <Studente>();
+    	if (cbCorsi.getValue().compareTo("")!=0 && txtMatricola.getText().compareTo("")==0){
+    	nomeCorso = cbCorsi.getValue();
+    	if(segreteria.iscrittiCorso(nomeCorso)==null){
+    		txtResult.setText("corso senza iscritti");
+    		return;
+    	}
+    	studentiTemp.addAll(segreteria.iscrittiCorso(nomeCorso));
+    	for(int i=0; i<studentiTemp.size();i++){
+    		Studente stemp = studentiTemp.get(i);
+    		txtResult.appendText(stemp.getMatricola() + "  " + stemp.getCognome() + "  " + stemp.getNome() + "  " + stemp.getCDS() + "\n" );
+    	}
+    	}
+    	
+    	
+    	
     }
 
     @FXML
