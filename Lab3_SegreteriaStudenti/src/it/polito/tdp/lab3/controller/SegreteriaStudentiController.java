@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import it.polito.tdp.lab3.DB.StudenteDAO;
+
 import it.polito.tdp.lab3.model.Corso;
 import it.polito.tdp.lab3.model.SegreteriaModel;
 import it.polito.tdp.lab3.model.Studente;
@@ -149,8 +149,37 @@ public class SegreteriaStudentiController {
 
     @FXML
     void doIscrivi(ActionEvent event) {
+    	txtResult.clear();
+    	String nomeCorso;
+    	int matricola;
+    	if (cbCorsi.getValue().compareTo("")!=0 && txtMatricola.getText().compareTo("")!=0){
+    		if(!txtMatricola.getText().matches("[0-9]*")){
+        		txtResult.setText("inserisci matricola valida");
+        		return;}
+    		matricola=Integer.parseInt(txtMatricola.getText());
+    		nomeCorso = cbCorsi.getValue();
+    		Map <Integer,Studente> tempMap = new TreeMap <Integer,Studente> ();
+			tempMap.putAll(segreteria.listaStudenti());
+			
+			if(!tempMap.containsKey(matricola)){
+				txtResult.setText("Studente inesistente!");
+				return;
+			}
+    		
+    		if(segreteria.studenteIscritto(nomeCorso, matricola)){
+    			txtResult.setText("studente gia' iscritto al corso");
+    		}
+    		else{
+    			segreteria.iscrivi(matricola, nomeCorso);
+    			txtResult.setText(tempMap.get(matricola).getNome() + " " + tempMap.get(matricola).getCognome() + " (" + matricola + ") e' stato iscritto al corso di \"" + nomeCorso + "\"");
+    		}
+    		
+    	}
+    	else{
+    		txtResult.setText("inserisci matricola e corso");	
+    	}
+    		}
 
-    }
 
     @FXML
     void doReset(ActionEvent event) {

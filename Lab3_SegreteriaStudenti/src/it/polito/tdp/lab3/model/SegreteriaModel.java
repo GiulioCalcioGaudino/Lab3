@@ -30,4 +30,8 @@ public class SegreteriaModel {
 	public Map<Integer,Studente> listaStudenti(){
 		return studentedao.listaStudenti();
 	}
+	
+	public void iscrivi (int matricola, String nome){
+		iscrizionedao.iscrivi(matricola, nome);
+	}
 }

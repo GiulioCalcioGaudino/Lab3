@@ -12,7 +12,7 @@ import it.polito.tdp.lab3.model.Studente;
 
 public class IscrizioneDAO {
 	
-	
+	CorsoDAO corsodao = new CorsoDAO ();
 	List <Studente> studentiIscritti = new LinkedList <Studente>();
 	private String jdbcURL = "jdbc:mysql://localhost/iscritticorsi?user=root";
 	
@@ -66,6 +66,21 @@ public class IscrizioneDAO {
 		return false;
 	}
 	
-	
+	public void iscrivi (int matricola, String nome){
+		try {
+			Connection conn = DriverManager.getConnection(jdbcURL);
+			
+			Statement st = conn.createStatement();
+			corsodao.listaCorsi();
+			String codins = corsodao.tuttiCorsi.get(nome).getCodins();
+			
+			String sql = "insert into iscrizione (matricola,codins) values (\"" + matricola + "\" , \""  + codins + "\");";
+
+			int rs = st.executeUpdate(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();}
+	}
 	
 }
